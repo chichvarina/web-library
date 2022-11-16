@@ -1,10 +1,9 @@
 package pro.sky.java.course2.weblibrary.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import pro.sky.java.course2.weblibrary.model.Employee;
 import pro.sky.java.course2.weblibrary.record.EmployeeRequest;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -19,10 +18,11 @@ public class EmployeeService {
         return this.employees.values();
     }
 
-    public Employee addEmployee(EmployeeRequest employeeRequest){
+    public Employee addEmployee(EmployeeRequest employeeRequest) {
         if (employeeRequest.getFirstName() == null || employeeRequest.getLastName() == null) {
             throw new IllegalArgumentException("Имя работника не задано");
         }
+
         Employee employee = new Employee(employeeRequest.getFirstName(), employeeRequest.getLastName(),
                 employeeRequest.getDepartment(), employeeRequest.getSalary());
 

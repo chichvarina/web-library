@@ -1,10 +1,10 @@
 package pro.sky.java.course2.weblibrary.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.java.course2.weblibrary.model.Employee;
 import pro.sky.java.course2.weblibrary.record.EmployeeRequest;
 import pro.sky.java.course2.weblibrary.service.EmployeeService;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -22,7 +22,20 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public Employee createEmployee(@RequestBody EmployeeRequest employeeRequest) {
+    public Employee createEmployee(@RequestBody EmployeeRequest employeeRequest) throws Exception {
+        if (! StringUtils.isAlpha(employeeRequest.getFirstName())){
+            throw new Exception("400 BadRequest, Фамилия должна содержать только буквы");
+        }
+        if (! StringUtils.isAlpha(employeeRequest.getLastName())){
+            throw new Exception("400 BadRequest, Имя должно содержать только буквы");
+        }
+        String newFirstName = StringUtils.capitalize(employeeRequest.getFirstName());
+        employeeRequest.setFirstName(newFirstName);
+
+        String newLastName = StringUtils.capitalize(employeeRequest.getLastName());
+        employeeRequest.setLastName(newLastName);
+
+
         return this.employeeService.addEmployee(employeeRequest);
     }
 
